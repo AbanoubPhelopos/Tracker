@@ -3,15 +3,15 @@ import * as SQLite from 'expo-sqlite';
 let db: SQLite.SQLiteDatabase | null = null;
 
 export const getDB = async () => {
-    if (!db) {
-        db = await SQLite.openDatabaseAsync('tracker.db');
-    }
-    return db;
+  if (!db) {
+    db = await SQLite.openDatabaseAsync('tracker.db');
+  }
+  return db;
 };
 
 export const initDatabase = async () => {
-    const database = await getDB();
-    await database.execAsync(`
+  const database = await getDB();
+  await database.execAsync(`
     PRAGMA foreign_keys = ON;
 
     CREATE TABLE IF NOT EXISTS goals (
@@ -31,6 +31,7 @@ export const initDatabase = async () => {
       id TEXT PRIMARY KEY NOT NULL,
       goalId TEXT NOT NULL,
       name TEXT NOT NULL,
+      type TEXT DEFAULT 'time', -- 'time' or 'event'
       frequencyDays INTEGER NOT NULL,
       streak INTEGER DEFAULT 0,
       totalCompleted INTEGER DEFAULT 0,
@@ -47,5 +48,5 @@ export const initDatabase = async () => {
       FOREIGN KEY (taskId) REFERENCES tasks (id) ON DELETE CASCADE
     );
   `);
-    console.log('Database initialized');
+  console.log('Database initialized');
 };

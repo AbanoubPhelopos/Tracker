@@ -1,6 +1,7 @@
 import { Colors } from '@/constants/Colors';
 import { Task } from '@/src/features/tasks/types/task.types';
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface TaskItemProps {
@@ -8,9 +9,12 @@ interface TaskItemProps {
     onPress: () => void;
 }
 
+
 export const TaskItem = ({ task, onPress }: TaskItemProps) => {
+    const router = useRouter();
+
     return (
-        <TouchableOpacity style={styles.container} onPress={onPress}>
+        <TouchableOpacity style={styles.container} onPress={() => router.push(`/task/${task.id}` as any)}>
             <View style={styles.content}>
                 <Text style={styles.name}>{task.name}</Text>
                 <View style={styles.details}>
